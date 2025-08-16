@@ -1,51 +1,41 @@
-from tokens import Token, TokenType
-from utils.raises import InvalideOperationError
+from src.token.tokens import Token, TokenType
+from src.utils.raises import InvalideOperationError
 
 
-class Operations:
-    # operations signals
+class _OperationsMeta(type):
+    def __contains__(cls, symbol) -> bool:
+        return any(symbol in operation for operation in cls.get_symbols())
+
+
+class Operations(metaclass=_OperationsMeta):
+    """
+    Operations to convert to Tokens
+    """
+
     PLUS: str = "+"
     MINUS: str = "-"
     MULTIPLY: str = "*"
     DIVIDE: str = "/"
     POWER: str = "^"
-    LOG: str = "log"
+    LOG: tuple[str] = ("log",)
     LEFT_PARENTHESES: str = "("
     RIGHT_PARENTHESES: str = ")"
 
     @classmethod
-    def get_operation(cls) -> set:
-        return set([cls.PLUS, cls.MINUS, cls.MULTIPLY, cls.DIVIDE, cls.POWER, cls.LOG])
-
-    @classmethod
-    def __contains__(cls, symbol: str) -> bool:
-        contains: bool = False
-        for operation in cls.get_operation():
-            if symbol in operation:
-                contains = True
-                break
-
-        return contains
-
-    @classmethod
-    def convert_operation(cls, operation: str) -> Token:
-        if operation in cls.PLUS:
-            return Token(TokenType.PLUS)
-        if operation in cls.MINUS:
-            return Token(TokenType.MINUS)
-        if operation in cls.MULTIPLY:
-            return Token(TokenType.MULTIPLY)
-        if operation in cls.DIVIDE:
-            return Token(TokenType.DIVIDE)
-        if operation in cls.POWER:
-            return Token(TokenType.POWER)
-        if operation in cls.LOG:
-            return Token(TokenType.LOG)
-
-        raise InvalideOperationError
+    def get_symbols(cls) -> list:
+        return [cls.PLUS, cls.MINUS, cls.MULTIPLY, cls.DIVIDE, cls.POWER, cls.LOG]
 
 
-class Alphabet:
+class _AlphabetMeta(type):
+    def __contains__(cls, character: str) -> bool:
+        return any(character in symbol for symbol in cls.get_symbols())
+
+
+class Alphabet(metaclass=_AlphabetMeta):
+    """
+    Alphabet to convert to Tokens
+    """
+
     # useless tokens
     WHITESPACE: str = " \n\t"
 
@@ -56,7 +46,7 @@ class Alphabet:
     FLOAT_POINTS: str = "."
 
     @classmethod
-    def get_symbols(cls) -> set:
+    def get_symbols(cls) -> set[str]:
         symbols: set = set(
             [
                 cls.WHITESPACE,
@@ -66,13 +56,3 @@ class Alphabet:
         )
 
         return symbols
-
-    @classmethod
-    def __contains__(cls, character: str) -> bool:
-        contains: bool = False
-        for symbol in cls.get_symbols():
-            if character in symbol:
-                contains = True
-                break
-
-        return contains
