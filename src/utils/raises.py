@@ -18,3 +18,13 @@ class InvalideOperationError(Exception):
     """
     Invalid operator provided for the Lexer
     """
+
+    pass
+
+
+class InvalideTypeInLexerError(Exception):
+    """
+    Invalid type in Lexer
+    """
+
+    pass
