@@ -1,9 +1,9 @@
 from typing import Generator, Iterator
 
 from src.utils.raises import (
+    FloatPointSyntaxError,
     InvalidCharacterInLexerError,
-    InvalideOperationError,
-    InvalideTypeInLexerError,
+    InvalidTypeInLexerError,
 )
 from src.token.tokens import Token, TokenType
 from src.token.alphabet import Alphabet, Operations
@@ -40,7 +40,7 @@ class Lexer:
         if self._current_character is not None and not isinstance(
             self._current_character, str
         ):
-            raise InvalideTypeInLexerError(
+            raise InvalidTypeInLexerError(
                 f"Illegal type in Lexer: {self._current_character}: {type(self._current_character)}"
             )
 
@@ -76,6 +76,9 @@ class Lexer:
         if number_buffer is None:
             raise RuntimeError("It was passed a None object to generate_number().")
 
+        if number_buffer in Alphabet.FLOAT_POINTS:
+            decimal_points_count += 1
+
         self.next_character()
         while self.current_character is not None and (
             self.current_character in Alphabet.DIGITS
@@ -90,18 +93,21 @@ class Lexer:
             self.next_character()
 
         if number_buffer[0] in Alphabet.FLOAT_POINTS:
-            number_buffer = "0" + number_buffer
+            raise FloatPointSyntaxError(
+                f"Float Point is in incorrect position: Expect a digit before '{number_buffer[0]}'."
+            )
 
         if number_buffer[-1] in Alphabet.FLOAT_POINTS:
-            number_buffer += "0"
+            raise FloatPointSyntaxError(
+                f"Float Point is in incorrect position: Expect a digit after '{number_buffer[-1]}'."
+            )
 
         number_token: Token = Token(
             TokenType.NUMBER,
-            (float(number_buffer) if decimal_points_count > 0 else int(number_buffer)),
+            float(number_buffer) if decimal_points_count > 0 else int(number_buffer),
         )
         log.debug(f"The number generated is: {number_token.value}")
 
-        self.next_character()
         return number_token
 
     def generate_tokens(self) -> Generator:
@@ -113,12 +119,12 @@ class Lexer:
         """
         self.next_character()
         while self.current_character is not None:
-            if self.current_character in Alphabet.WHITESPACE:
+            if self.current_character in Alphabet.WHITESPACE:  # type: ignore
                 log.debug("The current character is Blank Space")
                 self.next_character()
                 continue
 
-            elif self.current_character in Alphabet:
+            elif self.current_character in Alphabet:  # type: ignore
                 yield self.generate_number()
 
             elif self.current_character in Operations:
