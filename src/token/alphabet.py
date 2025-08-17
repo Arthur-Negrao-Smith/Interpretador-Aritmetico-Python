@@ -16,6 +16,7 @@ class Operations(metaclass=_OperationsMeta):
     LOG: tuple[str] = ("log",)
     LEFT_PARENTHESES: str = "("
     RIGHT_PARENTHESES: str = ")"
+    EQUAL: str = "="
 
     @classmethod
     def get_symbols(cls) -> list:
@@ -28,6 +29,7 @@ class Operations(metaclass=_OperationsMeta):
             cls.LOG,
             cls.RIGHT_PARENTHESES,
             cls.LEFT_PARENTHESES,
+            cls.EQUAL,
         ]
 
 
@@ -51,7 +53,7 @@ class Alphabet(metaclass=_AlphabetMeta):
     FLOAT_POINTS: str = "."
 
     # letters
-    LETTERS: str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    LETTERS: str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
 
     @classmethod
     def get_symbols(cls) -> set[str]:
