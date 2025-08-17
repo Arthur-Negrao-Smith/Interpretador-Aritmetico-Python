@@ -149,10 +149,10 @@ class Lexer:
                         self.next_character()
                         yield Token(TokenType.MINUS)
 
-                    case Operations.MULTIPLY:
-                        log.debug("Current character is Multiply")
+                    case Operations.TIMES:
+                        log.debug("Current character is Times")
                         self.next_character()
-                        yield Token(TokenType.MULTIPLY)
+                        yield Token(TokenType.TIMES)
 
                     case Operations.DIVIDE:
                         log.debug("Current character is Divide")

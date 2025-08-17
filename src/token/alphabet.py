@@ -10,7 +10,7 @@ class Operations(metaclass=_OperationsMeta):
 
     PLUS: str = "+"
     MINUS: str = "-"
-    MULTIPLY: str = "*"
+    TIMES: str = "*"
     DIVIDE: str = "/"
     POWER: str = "^"
     LOG: tuple[str] = ("log",)
@@ -22,7 +22,7 @@ class Operations(metaclass=_OperationsMeta):
         return [
             cls.PLUS,
             cls.MINUS,
-            cls.MULTIPLY,
+            cls.TIMES,
             cls.DIVIDE,
             cls.POWER,
             cls.LOG,
