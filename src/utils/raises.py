@@ -6,15 +6,15 @@ class InvalidCharacterInLexerError(Exception):
     pass
 
 
-class InvalidNumberOfFloatPointsError(Exception):
+class FloatPointSyntaxError(Exception):
     """
-    Invalid number of Float points
+    Invalid syntax of float point
     """
 
     pass
 
 
-class InvalideOperationError(Exception):
+class InvalidOperationError(Exception):
     """
     Invalid operator provided for the Lexer
     """
@@ -22,7 +22,7 @@ class InvalideOperationError(Exception):
     pass
 
 
-class InvalideTypeInLexerError(Exception):
+class InvalidTypeInLexerError(Exception):
     """
     Invalid type in Lexer
     """
