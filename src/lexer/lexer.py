@@ -41,7 +41,7 @@ class Lexer:
             self._current_character, str
         ):
             raise InvalidTypeInLexerError(
-                f"Illegal type in Lexer: {self._current_character}: {type(self._current_character)}"
+                f"Illegal type in Lexer: {self._current_character}: {type(self._current_character)}."
             )
 
         return self._current_character
@@ -139,7 +139,9 @@ class Lexer:
             self.current_character is not None
             and self.current_character in Alphabet.FLOAT_POINTS
         ):
-            raise SyntaxError(f"Variables don't have '{self.current_character}'")
+            raise SyntaxError(
+                f"Variable names can't have a '{self.current_character}'."
+            )
 
         token: Token = Token(TokenType.VARIABLE, name_buffer)
         log.debug(f"The variable generated is: {token.value}")
@@ -213,5 +215,5 @@ class Lexer:
                         yield Token(TokenType.LOG)
             else:
                 raise InvalidCharacterInLexerError(
-                    f"Illegal character: '{self.current_character}'"
+                    f"Illegal character: '{self.current_character}'."
                 )
