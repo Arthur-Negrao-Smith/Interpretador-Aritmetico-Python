@@ -17,7 +17,8 @@ class TokenType(Enum):
     LOG = 6
     LEFT_PARENTHESES = 7
     RIGHT_PARENTHESES = 8
-    VARIABLE = 9
+    EQUAL = 9
+    VARIABLE = 10
 
 
 @dataclass
