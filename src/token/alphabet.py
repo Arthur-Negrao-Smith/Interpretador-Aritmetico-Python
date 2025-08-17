@@ -50,6 +50,9 @@ class Alphabet(metaclass=_AlphabetMeta):
     # float point tokens
     FLOAT_POINTS: str = "."
 
+    # letters
+    LETTERS: str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
     @classmethod
     def get_symbols(cls) -> set[str]:
         symbols: set = set(
@@ -57,6 +60,7 @@ class Alphabet(metaclass=_AlphabetMeta):
                 cls.WHITESPACE,
                 cls.DIGITS,
                 cls.FLOAT_POINTS,
+                cls.LETTERS,
             ]
         )
 
