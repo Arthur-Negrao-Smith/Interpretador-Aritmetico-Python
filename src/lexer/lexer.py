@@ -177,6 +177,11 @@ class Lexer:
                         self.next_character()
                         yield Token(TokenType.RIGHT_PARENTHESES)
 
+                    case Operations.EQUAL:
+                        log.debug("Current character is Equal")
+                        self.next_character()
+                        yield Token(TokenType.EQUAL)
+
                     case Operations.PLUS:
                         log.debug("Current character is Plus")
                         self.next_character()
