@@ -69,6 +69,9 @@ class Lexer:
     def generate_number(self) -> Token:
         """
         Create a number token
+
+        Returns:
+            Token: Minimal information of Lexer
         """
         decimal_points_count: int = 0
         number_buffer: str | None = self.current_character
@@ -110,6 +113,38 @@ class Lexer:
 
         return number_token
 
+    def generate_variable(self) -> Token:
+        """
+        Generate variables
+
+        Returns:
+            Token: Minimal information of Lexer
+        """
+        name_buffer: str | None = self.current_character
+
+        if name_buffer is None:
+            raise RuntimeError("It was passed a None object to generate_number().")
+
+        self.next_character()
+        # while character is not None and is a letter or a digit
+        while self.current_character is not None and (
+            self.current_character in Alphabet.LETTERS
+            or self.current_character in Alphabet.DIGITS
+        ):
+            name_buffer += self.current_character
+            self.next_character()
+
+        # if float point appear
+        if (
+            self.current_character is not None
+            and self.current_character in Alphabet.FLOAT_POINTS
+        ):
+            raise SyntaxError(f"Variables don't have '{self.current_character}'")
+
+        token: Token = Token(TokenType.VARIABLE, name_buffer)
+        log.debug(f"The variable generated is: {token.value}")
+        return token
+
     def generate_tokens(self) -> Generator:
         """
         Generator to tokens
@@ -125,7 +160,10 @@ class Lexer:
                 continue
 
             elif self.current_character in Alphabet:  # type: ignore
-                yield self.generate_number()
+                if self.current_character in Alphabet.LETTERS:
+                    yield self.generate_variable()
+                else:
+                    yield self.generate_number()
 
             elif self.current_character in Operations:
                 match self.current_character:
