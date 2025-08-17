@@ -1,10 +1,6 @@
-from src.token.tokens import Token, TokenType
-from src.utils.raises import InvalideOperationError
-
-
 class _OperationsMeta(type):
     def __contains__(cls, symbol) -> bool:
-        return any(symbol in operation for operation in cls.get_symbols())
+        return any(symbol in operation for operation in cls.get_symbols())  # type: ignore
 
 
 class Operations(metaclass=_OperationsMeta):
@@ -23,12 +19,21 @@ class Operations(metaclass=_OperationsMeta):
 
     @classmethod
     def get_symbols(cls) -> list:
-        return [cls.PLUS, cls.MINUS, cls.MULTIPLY, cls.DIVIDE, cls.POWER, cls.LOG]
+        return [
+            cls.PLUS,
+            cls.MINUS,
+            cls.MULTIPLY,
+            cls.DIVIDE,
+            cls.POWER,
+            cls.LOG,
+            cls.RIGHT_PARENTHESES,
+            cls.LEFT_PARENTHESES,
+        ]
 
 
 class _AlphabetMeta(type):
     def __contains__(cls, character: str) -> bool:
-        return any(character in symbol for symbol in cls.get_symbols())
+        return any(character in symbol for symbol in cls.get_symbols())  # type: ignore
 
 
 class Alphabet(metaclass=_AlphabetMeta):
