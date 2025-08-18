@@ -21,6 +21,13 @@ while True:
     text: str = input("Caculate >> ")
     if text == "exit":
         break
-    lexer: Lexer = Lexer(text)
-    tokens: Generator = lexer.generate_tokens()
-    print(list(tokens))
+
+    try:
+        lexer: Lexer = Lexer(text)
+        tokens: Generator = lexer.generate_tokens()
+        print(list(tokens))
+
+    except Exception as error:
+        print(error)
+        continue
+
