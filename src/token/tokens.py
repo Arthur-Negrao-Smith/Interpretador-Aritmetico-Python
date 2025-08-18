@@ -19,6 +19,9 @@ class TokenType(Enum):
     RIGHT_PARENTHESES = 8
     EQUAL = 9
     VARIABLE = 10
+    SIN = 11
+    COS = 12
+    SQRT = 13
 
 
 @dataclass

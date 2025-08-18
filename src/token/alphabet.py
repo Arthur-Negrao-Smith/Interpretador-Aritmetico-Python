@@ -13,10 +13,15 @@ class Operations(metaclass=_OperationsMeta):
     TIMES: str = "*"
     DIVIDE: str = "/"
     POWER: str = "^"
-    LOG: tuple[str] = ("log",)
     LEFT_PARENTHESES: str = "("
     RIGHT_PARENTHESES: str = ")"
     EQUAL: str = "="
+
+    # Named operations
+    LOG: str = "log"
+    SQRT: str = "sqrt"
+    SIN: str = "sin"
+    COS: str = "cos"
 
     @classmethod
     def get_symbols(cls) -> list:
@@ -26,12 +31,19 @@ class Operations(metaclass=_OperationsMeta):
             cls.TIMES,
             cls.DIVIDE,
             cls.POWER,
-            cls.LOG,
             cls.RIGHT_PARENTHESES,
             cls.LEFT_PARENTHESES,
             cls.EQUAL,
         ]
 
+    @classmethod
+    def get_named_operations(cls) -> tuple:
+        return (
+            cls.LOG,
+            cls.SQRT,
+            cls.SIN,
+            cls.COS
+        )
 
 class _AlphabetMeta(type):
     def __contains__(cls, character: str) -> bool:
