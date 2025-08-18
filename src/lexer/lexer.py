@@ -143,6 +143,24 @@ class Lexer:
                 f"Variable names can't have a '{self.current_character}'."
             )
 
+        if name_buffer in Operations.get_named_operations():
+            match name_buffer:
+                case Operations.LOG:
+                    log.debug("Current character is Log")
+                    return Token(TokenType.LOG)
+
+                case Operations.SQRT:
+                    log.debug("Current character is Sqrt")
+                    return Token(TokenType.SQRT)
+
+                case Operations.COS:
+                    log.debug("Current character is Cos")
+                    return Token(TokenType.COS)
+
+                case Operations.SIN:
+                    log.debug("Current character is Sin")
+                    return Token(TokenType.SIN)
+
         token: Token = Token(TokenType.VARIABLE, name_buffer)
         log.debug(f"The variable generated is: {token.value}")
         return token
@@ -209,10 +227,6 @@ class Lexer:
                         self.next_character()
                         yield Token(TokenType.POWER)
 
-                    case Operations.LOG:
-                        log.debug("Current character is Log")
-                        self.next_character()
-                        yield Token(TokenType.LOG)
             else:
                 raise InvalidCharacterInLexerError(
                     f"Illegal character: '{self.current_character}'."
