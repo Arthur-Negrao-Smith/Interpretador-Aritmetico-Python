@@ -1,5 +1,5 @@
-from src.parser.nodes import *
-from src.token.tokens import Token
+from src.backend.parser.nodes import *
+from src.backend.token.tokens import Token
 
 from typing import Generator
 

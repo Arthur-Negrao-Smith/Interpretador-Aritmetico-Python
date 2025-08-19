@@ -1,12 +1,12 @@
 from typing import Generator, Iterator
 
-from src.utils.raises import (
+from src.backend.utils.raises import (
     FloatPointSyntaxError,
     InvalidCharacterInLexerError,
     InvalidTypeInLexerError,
 )
-from src.token.tokens import Token, TokenType
-from src.token.alphabet import Alphabet, Operations
+from src.backend.token.tokens import Token, TokenType
+from src.backend.token.alphabet import Alphabet, Operations
 
 import logging
 

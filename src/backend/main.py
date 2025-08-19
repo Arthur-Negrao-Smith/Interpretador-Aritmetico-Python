@@ -1,4 +1,4 @@
-from src.lexer.lexer import Lexer
+from src.backend.lexer.lexer import Lexer
 from typing import Generator
 
 import logging
