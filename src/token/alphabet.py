@@ -22,6 +22,7 @@ class Operations(metaclass=_OperationsMeta):
     SQRT: str = "sqrt"
     SIN: str = "sin"
     COS: str = "cos"
+    EXP: str = "exp"
 
     @classmethod
     def get_symbols(cls) -> list:
@@ -38,7 +39,7 @@ class Operations(metaclass=_OperationsMeta):
 
     @classmethod
     def get_named_operations(cls) -> tuple:
-        return (cls.LOG, cls.SQRT, cls.SIN, cls.COS)
+        return (cls.LOG, cls.SQRT, cls.SIN, cls.COS, cls.EXP)
 
 
 class _AlphabetMeta(type):

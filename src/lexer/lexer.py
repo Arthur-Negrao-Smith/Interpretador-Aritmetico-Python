@@ -115,7 +115,7 @@ class Lexer:
 
     def generate_variable(self) -> Token:
         """
-        Generate variables
+        Generate variables and Named operations
 
         Returns:
             Token: Minimal information of Lexer
@@ -160,6 +160,10 @@ class Lexer:
                 case Operations.SIN:
                     log.debug("Current character is Sin")
                     return Token(TokenType.SIN)
+
+                case Operations.EXP:
+                    log.debug("Current character is Exp")
+                    return Token(TokenType.EXP)
 
         token: Token = Token(TokenType.VARIABLE, name_buffer)
         log.debug(f"The variable generated is: {token.value}")

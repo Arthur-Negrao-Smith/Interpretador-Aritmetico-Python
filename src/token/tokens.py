@@ -22,6 +22,7 @@ class TokenType(Enum):
     SIN = 11
     COS = 12
     SQRT = 13
+    EXP = 14
 
 
 @dataclass
