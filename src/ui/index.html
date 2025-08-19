@@ -12,60 +12,63 @@
                 <h1>Validador de Expressões Aritméticas</h1>
             </section>
 
-            <section class="calc-buttons">
-                <div class="calc-button-upper">
-                    <button class="plus">
-                        &plus;
-                    </button>
-                    <button class="minus">
-                        &minus;
-                    </button>
-                    <button class="times">
-                        &times;
-                    </button>
-                    <button class="divide">
-                        &divide;
-                    </button>
-                    <button class="exp">
-                        exp<sup>&#9633;</sup>
-                    </button>
-                    <button class="log">
-                        log<sub>2</sub>
-                    </button>
-                </div>
+            <div class="calculator">
+                <section class="calc-buttons"> 
+                    <div class="calc-button-row">
+                        <button class="calc-button">
+                            &plus;
+                        </button>
+                        <button class="calc-button">
+                            &minus;
+                        </button>
+                        <button class="calc-button">
+                            &times;
+                        </button>
+                        <button class="calc-button">
+                            &divide;
+                        </button>
+                        <button class="calc-button">
+                            exp<sup>&#9633;</sup>
+                        </button>
+                        <button class="calc-button">
+                            log<sub>2</sub>
+                        </button>
+                    </div>
 
-                <div class="calc-button-lower">
-                    <button class="sen">
-                        sen
-                    </button>
-                    <button class="cos">
-                        cos
-                    </button>
-                    <button class="sqrt">
-                        sqrt &radic;
-                    </button>
-                    <button class="l-parentheses">
-                        &#40;
-                    </button>
-                    <button class="r-parentheses">
-                        &#41;
-                    </button>
-                    <button class="equal">
-                        &equals;
-                    </button>
-                </div>
-            </section>
+                    <div class="calc-button-row">
+                        <button class="calc-button">
+                            sen
+                        </button>
+                        <button class="calc-button">
+                            cos
+                        </button>
+                        <button class="calc-button">
+                            sqrt &radic;
+                        </button>
+                        <button class="calc-button">
+                            &#40;
+                        </button>
+                        <button class="calc-button">
+                            &#41;
+                        </button>
+                        <button class="calc-button">
+                            &equals;
+                        </button>
+                    </div>
+                </section>
 
-            <section class="expression-area">
-                <input type="text" id="expression-input" placeholder="Digite a expressão, ex: (10 + 5) * 2">
-                <button id="enter-btn">
-                    &rarr;
-                </button>
-                <div id="result-area">
-                    Aguardando expressão...
+                <section class="expression-area">
+                    <input type="text" class="expression-input" placeholder="Digite a expressão, ex: (10 + 5) * 2">
+                    <button class="enter-btn">
+                        &rarr;
+                    </button>
+                </section>
+
+                <div class="result-area">
+                    Resultado
+                    <div class="display" id="display"></div>
                 </div>
-            </section>
-            
+            </div>            
         </div>
 
         <script src="script.js"></script>
