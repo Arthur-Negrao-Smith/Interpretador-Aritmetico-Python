@@ -1,8 +1,6 @@
 from typing import Literal
 from dataclasses import dataclass
 
-from backend.token.tokens import TokenType
-
 
 class Node:
     """
@@ -21,6 +19,7 @@ class VariableNode(Node):
     Attributes:
         name (str): Name of variable
     """
+
     name: str
 
     def __repr__(self) -> str:
@@ -35,6 +34,7 @@ class NumberNode(Node):
     Attributes:
     value (int): Literal value of the node
     """
+
     value: int | float
 
     def __repr__(self) -> str:
@@ -43,7 +43,7 @@ class NumberNode(Node):
 
 # Operations
 @dataclass
-class BinOperationsNode(Node):
+class BinOperationNode(Node):
     """
     Binary node operations like: +, -, *, ^, ...
 
@@ -52,6 +52,7 @@ class BinOperationsNode(Node):
         operation (str): Operation to use with left and right node
         right_node (type[Node]): Node to use operation
     """
+
     left_node: Node
     operation: str
     right_node: Node
@@ -69,11 +70,12 @@ class UnaryOperationNode(Node):
         operation (Literal["+", "-"]): Operation to use with node
         node (type[Node]): Node to use operator
     """
+
     operation: Literal["+", "-"]
     operand: Node
 
     def __repr__(self) -> str:
-        return f"({self.operand}{self.operation})"
+        return f"({self.operation}{self.operand})"
 
 
 # Assignment
@@ -86,6 +88,7 @@ class AssignmentNode(Node):
         variable_name (str): Name of variable
         expression (Node): Node to represent the expression to assign
     """
+
     variable_name: str
     value: Node
 
@@ -100,11 +103,12 @@ class FunctionNode(Node):
     Node to represent functions like: sqrt, log, sin, cos, ...
 
     Attributes:
-        function_type (TokenType): TokenType of used function
+        function_name (str): Name of used function
         expression (Node): Expression to use in function args
     """
-    function_type: TokenType
+
+    function_name: str
     expression: Node
 
     def __repr__(self) -> str:
-        return f"{self.function_type}({self.expression})"
+        return f"{self.function_name}({self.expression})"
