@@ -10,7 +10,7 @@ class Operations(metaclass=_OperationsMeta):
 
     PLUS: str = "+"
     MINUS: str = "-"
-    TIMES: str = "*"
+    MULTIPLY: str = "*"
     DIVIDE: str = "/"
     POWER: str = "^"
     LEFT_PARENTHESES: str = "("
@@ -28,7 +28,7 @@ class Operations(metaclass=_OperationsMeta):
         return [
             cls.PLUS,
             cls.MINUS,
-            cls.TIMES,
+            cls.MULTIPLY,
             cls.DIVIDE,
             cls.POWER,
             cls.RIGHT_PARENTHESES,
@@ -38,12 +38,8 @@ class Operations(metaclass=_OperationsMeta):
 
     @classmethod
     def get_named_operations(cls) -> tuple:
-        return (
-            cls.LOG,
-            cls.SQRT,
-            cls.SIN,
-            cls.COS
-        )
+        return (cls.LOG, cls.SQRT, cls.SIN, cls.COS)
+
 
 class _AlphabetMeta(type):
     def __contains__(cls, character: str) -> bool:

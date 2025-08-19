@@ -11,7 +11,7 @@ class TokenType(Enum):
     NUMBER = 0
     PLUS = 1
     MINUS = 2
-    TIMES = 3
+    MULTIPLY = 3
     DIVIDE = 4
     POWER = 5
     LOG = 6

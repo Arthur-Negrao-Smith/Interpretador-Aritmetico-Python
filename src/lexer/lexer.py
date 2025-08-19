@@ -25,7 +25,7 @@ class Lexer:
         Args:
             text (str): Text to convert to Tokens
         """
-        log.debug(f"The text in lexes is: '{text}'")
+        log.debug(f"The text in Lexer is: '{text}'")
         self.text: Iterator = iter(text)
         self._current_character: str | None = None
 
@@ -212,10 +212,10 @@ class Lexer:
                         self.next_character()
                         yield Token(TokenType.MINUS)
 
-                    case Operations.TIMES:
-                        log.debug("Current character is Times")
+                    case Operations.MULTIPLY:
+                        log.debug("Current character is Multiply")
                         self.next_character()
-                        yield Token(TokenType.TIMES)
+                        yield Token(TokenType.MULTIPLY)
 
                     case Operations.DIVIDE:
                         log.debug("Current character is Divide")
