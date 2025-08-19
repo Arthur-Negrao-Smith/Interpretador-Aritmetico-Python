@@ -28,6 +28,5 @@ while True:
         print(list(tokens))
 
     except Exception as error:
-        print(error)
+        print(f"Syntax Erro: {error}")
         continue
-
