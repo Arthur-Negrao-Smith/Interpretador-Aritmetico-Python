@@ -25,9 +25,11 @@ class Lexer:
         Args:
             text (str): Text to convert to Tokens
         """
-        log.debug(f"The text in Lexer is: '{text}'")
-        self.text: Iterator = iter(text)
+        cleaned_text: str = text.strip()
+        log.debug(f"The text in Lexer is: '{cleaned_text}'")
+        self.text: Iterator = iter(cleaned_text)
         self._current_character: str | None = None
+        self.next_character()
 
     @property
     def current_character(self) -> str | None:
@@ -176,7 +178,6 @@ class Lexer:
         Returns:
             Generator: Generator of Tokens
         """
-        self.next_character()
         while self.current_character is not None:
             if self.current_character in Alphabet.WHITESPACE:  # type: ignore
                 log.debug("The current character is Blank Space")
