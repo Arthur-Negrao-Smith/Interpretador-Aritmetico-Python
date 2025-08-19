@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles.css">
+        <title>Validador de Expressões</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Validador de Expressões Aritméticas</h1>
+            <div class="calc-button-upper">
+                <button class="plus">&plus;</button>
+                <button class="minus">&minus;</button>
+                <button class="times">&times;</button>
+                <button class="divide">&divide;</button>
+                <button class="exp">exp<sup>&#9633;</sup></button>
+                <button class="log">log<sub>2</sub></button>
+            </div>
+            <div class="calc-button-mid">
+                <button class="sen">sen</button>
+                <button class="cos">cos</button>
+                <button class="sqrt">sqrt &radic;</button>
+                <button class="l-parentheses">&#40;</button>
+                <button class="r-parentheses">&#41;</button>
+                <button class="equal">&equals;</button>
+            </div>
+            <input type="text" id="expression-input" placeholder="Digite a expressão, ex: (10 + 5) * 2">
+            <button id="enter-btn">&rarr;</button>
+            <div id="result-area">
+                Aguardando expressão...
+            </div>
+        </div>
+    </body>
+</html>
