@@ -97,6 +97,15 @@ class Lexer:
             number_buffer += self.current_character
             self.next_character()
 
+        # if have a letter without blank space between
+        if (
+            self.current_character is not None
+            and self.current_character in Alphabet.LETTERS
+        ):
+            raise SyntaxError(
+                f"Number don't accepts letters symbols: '{self.current_character}'."
+            )
+
         if number_buffer[0] in Alphabet.FLOAT_POINTS:
             raise FloatPointSyntaxError(
                 f"Float Point is in incorrect position: Expect a digit before '{number_buffer[0]}'."
