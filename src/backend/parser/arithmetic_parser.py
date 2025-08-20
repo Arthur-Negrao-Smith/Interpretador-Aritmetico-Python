@@ -1,7 +1,7 @@
 from src.backend.parser.nodes import *
 from src.backend.token.tokens import Token, TokenType
 
-from typing import Generator, Iterator
+from typing import Iterator
 import logging
 
 log = logging.getLogger(__name__)
@@ -82,7 +82,8 @@ class Parser:
             case TokenType.POWER:
                 return 40
             case _:
-                raise RuntimeError(f"This token doesn't have bind power: '{token}'")
+                # parenthesis
+                return 0
 
     @staticmethod
     def convert_operation_to_string(token: Token) -> str:
@@ -167,26 +168,30 @@ class Parser:
         elif token.type in (TokenType.COS, TokenType.LOG, TokenType.EXP, TokenType.SIN):
 
             # if don't have parenthesis
-            if token.type != TokenType.LEFT_PARENTHESES:
+            if (
+                self.current_token is None
+                or self.current_token.type != TokenType.LEFT_PARENTHESES
+            ):
                 raise SyntaxError(
-                    f"Must have parenthesis after the function: '{token}'."
+                    f"Must have parenthesis after the function: '{self.convert_function_to_string(token)}'."
                 )
+
+            function_name: str = self.convert_function_to_string(token)
 
             self.next_token()
             expression: Node = self.expression(0)
 
             # if don't have right parenthesis
             if (
-                self.current_token is not None
-                and self.current_token != TokenType.RIGHT_PARENTHESES
+                self.current_token is None
+                or self.current_token.type != TokenType.RIGHT_PARENTHESES
             ):
                 raise SyntaxError(
-                    f"Miss right parenthesiss to close expression in function: '{token.type}'."
+                    f"Miss right parenthesis to close expression in function: '{function_name}'."
                 )
 
             # consume the parenthesis ")"
             self.next_token()
-            function_name: str = self.convert_function_to_string(token)
             log.info(f"Function Node created: '{function_name}'")
             return FunctionNode(function_name, expression)
 
@@ -230,7 +235,7 @@ class Parser:
 
         if token.type == TokenType.EQUAL:
             if not isinstance(left_node, VariableNode):
-                raise SyntaxError(f"Just variables can be assigned: '{token}'")
+                raise SyntaxError(f"Just variables can be assigned: '{left_node}'")
             right_node = self.expression(self.left_bind_power(token) - 1)
             log.info(f"Assigment Node created: '='")
             return AssignmentNode(left_node.name, right_node)
