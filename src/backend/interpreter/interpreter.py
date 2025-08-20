@@ -1,5 +1,6 @@
 from src.backend.parser import *
 from src.backend.interpreter.values import Number
+import math
 
 class Interpreter: 
     def visit(self, node):
@@ -42,3 +43,21 @@ class Interpreter:
             return Number(-value.Value)
         else: Exception(f"Operação desconhecida: {node.operaation}")
     
+    def visit_FunctionNode(self, node):
+        arg = self.visit(node.expression)
+        funct_name = node.function_name.lower()
+
+        if funct_name == "sqrt":
+            return Number(math.sqrt(arg.Value))
+        elif funct_name == "log":
+            return Number(math.log(arg.Value))
+        elif funct_name == "sin":
+            return Number(math.sin(arg.Value))
+        elif funct_name == "cos":
+            return Number(math.cos(arg.Value))
+        elif funct_name == "tan":
+            return Number(math.tan(arg.Value))
+        elif funct_name == "exp":
+         return Number(math.exp(arg.Value))
+        else:
+            raise Exception(f"Função desconhecida: {funct_name}")
