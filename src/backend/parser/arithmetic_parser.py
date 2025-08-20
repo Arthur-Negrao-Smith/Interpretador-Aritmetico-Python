@@ -1,7 +1,10 @@
 from src.backend.parser.nodes import *
 from src.backend.token.tokens import Token, TokenType
 
-from typing import Generator
+from typing import Generator, Iterator
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class Parser:
@@ -9,14 +12,14 @@ class Parser:
     Parser to analyze syntax and organize operations maintaining the order of precedence
     """
 
-    def __init__(self, tokens: Generator[Token]) -> None:
+    def __init__(self, tokens: list[Token]) -> None:
         """
         Constructor from Parser
 
         Args:
             tokens (Generator[Token]): All tokens to parser in a Generator
         """
-        self.tokens = tokens
+        self.tokens: Iterator = iter(tokens)
         self._current_token: Token | None = None
         self.next_token()
 
@@ -48,6 +51,8 @@ class Parser:
             self.current_token = next(self.tokens)
         except StopIteration:
             self.current_token = None
+
+        log.info(f"Next Token: '{self.current_token}'")
 
     @staticmethod
     def left_bind_power(token: Token) -> int:
@@ -146,16 +151,18 @@ class Parser:
             Node: Node to represent function call
         """
         if token.type == TokenType.NUMBER:
+            log.info(f"Number Node created: {token.value}")
             return NumberNode(token.value)
 
         elif token.type == TokenType.VARIABLE:
+            log.info(f"Variable Node created: {token.value}")
             return VariableNode(token.value)
 
         elif token.type in (TokenType.PLUS, TokenType.MINUS):
             expression: Node = self.expression(100)
-            return UnaryOperationNode(
-                "+" if token.type == TokenType.PLUS else "-", expression
-            )
+            operation: Literal["-", "+"] = "+" if token.type == TokenType.PLUS else "-"
+            log.info(f"Unary Node created: '{operation}'")
+            return UnaryOperationNode(operation, expression)
 
         elif token.type in (TokenType.COS, TokenType.LOG, TokenType.EXP, TokenType.SIN):
 
@@ -179,7 +186,9 @@ class Parser:
 
             # consume the parenthesis ")"
             self.next_token()
-            return FunctionNode(self.convert_function_to_string(token), expression)
+            function_name: str = self.convert_function_to_string(token)
+            log.info(f"Function Node created: '{function_name}'")
+            return FunctionNode(function_name, expression)
 
         elif token.type == TokenType.LEFT_PARENTHESES:
             expression: Node = self.expression(0)
@@ -210,18 +219,20 @@ class Parser:
             TokenType.DIVIDE,
         ):
             right_node: Node = self.expression(self.left_bind_power(token))
-            return BinOperationNode(
-                left_node, self.convert_operation_to_string(token), right_node
-            )
+            operation: str = self.convert_operation_to_string(token)
+            log.info(f"Binary Operation Node created: '{operation}'")
+            return BinOperationNode(left_node, operation, right_node)
 
         if token.type == TokenType.POWER:
             right_node = self.expression(self.left_bind_power(token) - 1)
+            log.info(f"Binary Operation Node created: '^'")
             return BinOperationNode(left_node, "^", right_node)
 
         if token.type == TokenType.EQUAL:
             if not isinstance(left_node, VariableNode):
                 raise SyntaxError(f"Just variables can be assigned: '{token}'")
             right_node = self.expression(self.left_bind_power(token) - 1)
+            log.info(f"Assigment Node created: '='")
             return AssignmentNode(left_node.name, right_node)
 
         raise SyntaxError(f"This operation doesn' exists: '{token}'.")
