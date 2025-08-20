@@ -3,6 +3,9 @@ from src.backend.interpreter.values import Number
 import math
 
 class Interpreter: 
+    def __init__(self):
+        self.variables = {}
+    
     def visit(self, node):
         method_name = f'visit_{type(node).__name__}'
         method = getattr(self, method_name)
@@ -59,3 +62,14 @@ class Interpreter:
          return Number(math.exp(arg.Value))
         else:
             raise Exception(f"Função desconhecida: {funct_name}")
+    
+    def visit_AssignmentNode(self, node):
+        value = self.visit(node.value)   
+        self.variables[node.variable_name] = value
+        return value
+    
+    def visit_VariableNode(self, node):
+        if node.name in self.variables:
+            return self.variables[node.name]
+        else:
+            raise Exception(f"Variável não definida: {node.name}")
