@@ -55,8 +55,6 @@ class Interpreter:
             return Number(math.sin(arg.Value))
         elif funct_name == "cos":
             return Number(math.cos(arg.Value))
-        elif funct_name == "tan":
-            return Number(math.tan(arg.Value))
         elif funct_name == "exp":
          return Number(math.exp(arg.Value))
         else:
