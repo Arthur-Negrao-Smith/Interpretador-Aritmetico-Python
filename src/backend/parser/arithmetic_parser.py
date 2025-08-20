@@ -165,7 +165,13 @@ class Parser:
             log.info(f"Unary Node created: '{operation}'")
             return UnaryOperationNode(operation, expression)
 
-        elif token.type in (TokenType.COS, TokenType.LOG, TokenType.EXP, TokenType.SIN):
+        elif token.type in (
+            TokenType.COS,
+            TokenType.LOG,
+            TokenType.EXP,
+            TokenType.SIN,
+            TokenType.SQRT,
+        ):
 
             # if don't have parenthesis
             if (
