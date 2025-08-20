@@ -1,12 +1,13 @@
 from src.backend.lexer.lexer import Lexer
 from src.backend.parser.arithmetic_parser import Parser
 from src.backend.parser.nodes import Node
+from src.backend.interpreter.interpreter import Interpreter
 from typing import Generator
 
 import logging
 import sys
 
-
+interpreter = Interpreter()
 def active_log(level) -> None:
     log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     logging.basicConfig(level=level, format=log_format)
@@ -39,7 +40,8 @@ while True:
         if expression is None:
             print("")
         else:
-            print(expression)
+            result = interpreter.visit(expression)
+            print(result)
 
     except Exception as error:
         print(f"Syntax Error: {error}")
