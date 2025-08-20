@@ -82,7 +82,7 @@ body{
     border-radius: 16px;
     height: 40px;
     width: 300px;
-    padding: 10px;
+    padding: 15px;
 }
 ::-webkit-input-placeholder{
     color: #232323;
