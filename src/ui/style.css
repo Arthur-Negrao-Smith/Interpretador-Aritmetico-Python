@@ -59,7 +59,7 @@ body{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 12px;
     font-weight: bold;
-    height: 35px;
+    height: 40px;
 }
 .calc-button:hover{
     background-color:#fcaf98;
@@ -116,8 +116,8 @@ body{
     font-weight: bold;
 }
 .double{
-    flex-basis: 47%;
+    flex-basis: 22%;
 }
 .triple{
-    flex-basis: 73%;
+    flex-basis: 27%;
 }
