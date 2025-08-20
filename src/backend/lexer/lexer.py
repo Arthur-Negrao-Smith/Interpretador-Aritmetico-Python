@@ -26,7 +26,7 @@ class Lexer:
             text (str): Text to convert to Tokens
         """
         cleaned_text: str = text.strip()
-        log.debug(f"The text in Lexer is: '{cleaned_text}'")
+        log.info(f"The text in Lexer is: '{cleaned_text}'")
         self.text: Iterator = iter(cleaned_text)
         self._current_character: str | None = None
         self.next_character()
@@ -120,7 +120,7 @@ class Lexer:
             TokenType.NUMBER,
             float(number_buffer) if decimal_points_count > 0 else int(number_buffer),
         )
-        log.debug(f"The number generated is: {number_token.value}")
+        log.info(f"The number generated was: {number_token.value}")
 
         return number_token
 
@@ -157,27 +157,27 @@ class Lexer:
         if name_buffer in Operations.get_named_operations():
             match name_buffer:
                 case Operations.LOG:
-                    log.debug("Current character is Log")
+                    log.info("The operation generated was: 'LOG'")
                     return Token(TokenType.LOG)
 
                 case Operations.SQRT:
-                    log.debug("Current character is Sqrt")
+                    log.info("The operation genereted was: 'SQRT'")
                     return Token(TokenType.SQRT)
 
                 case Operations.COS:
-                    log.debug("Current character is Cos")
+                    log.info("The operation generated was: 'COS'")
                     return Token(TokenType.COS)
 
                 case Operations.SIN:
-                    log.debug("Current character is Sin")
+                    log.info("The operation generated was: 'SIN'")
                     return Token(TokenType.SIN)
 
                 case Operations.EXP:
-                    log.debug("Current character is Exp")
+                    log.info("The operation generated was: 'EXP'")
                     return Token(TokenType.EXP)
 
         token: Token = Token(TokenType.VARIABLE, name_buffer)
-        log.debug(f"The variable generated is: {token.value}")
+        log.info(f"The variable generated is: {token.value}")
         return token
 
     def generate_tokens(self) -> Generator:
@@ -202,42 +202,46 @@ class Lexer:
             elif self.current_character in Operations:
                 match self.current_character:
                     case Operations.LEFT_PARENTHESES:
-                        log.debug("Current character is Left Parentheses")
+                        log.info(
+                            f"The symbol generated was: '{Operations.LEFT_PARENTHESES}'"
+                        )
                         self.next_character()
                         yield Token(TokenType.LEFT_PARENTHESES)
 
                     case Operations.RIGHT_PARENTHESES:
-                        log.debug("Current character is Right Parentheses")
+                        log.info(
+                            f"The symbol generated was: '{Operations.RIGHT_PARENTHESES}'"
+                        )
                         self.next_character()
                         yield Token(TokenType.RIGHT_PARENTHESES)
 
                     case Operations.EQUAL:
-                        log.debug("Current character is Equal")
+                        log.info(f"The operation generated was: {Operations.EQUAL}")
                         self.next_character()
                         yield Token(TokenType.EQUAL)
 
                     case Operations.PLUS:
-                        log.debug("Current character is Plus")
+                        log.info(f"The operation generated was: {Operations.PLUS}")
                         self.next_character()
                         yield Token(TokenType.PLUS)
 
                     case Operations.MINUS:
-                        log.debug("Current character is Minus")
+                        log.info(f"The operation generated was: {Operations.MINUS}")
                         self.next_character()
                         yield Token(TokenType.MINUS)
 
                     case Operations.MULTIPLY:
-                        log.debug("Current character is Multiply")
+                        log.info(f"The operation generated was: {Operations.MULTIPLY}")
                         self.next_character()
                         yield Token(TokenType.MULTIPLY)
 
                     case Operations.DIVIDE:
-                        log.debug("Current character is Divide")
+                        log.info(f"The operation generated was: {Operations.DIVIDE}")
                         self.next_character()
                         yield Token(TokenType.DIVIDE)
 
                     case Operations.POWER:
-                        log.debug("Current character is Power")
+                        log.info(f"The operation generated was: {Operations.POWER}")
                         self.next_character()
                         yield Token(TokenType.POWER)
 

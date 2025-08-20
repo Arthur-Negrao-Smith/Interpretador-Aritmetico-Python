@@ -152,11 +152,11 @@ class Parser:
             Node: Node to represent function call
         """
         if token.type == TokenType.NUMBER:
-            log.info(f"Number Node created: {token.value}")
+            log.info(f"Number Node created: '{token.value}'")
             return NumberNode(token.value)
 
         elif token.type == TokenType.VARIABLE:
-            log.info(f"Variable Node created: {token.value}")
+            log.info(f"Variable Node created: '{token.value}'")
             return VariableNode(token.value)
 
         elif token.type in (TokenType.PLUS, TokenType.MINUS):
@@ -207,7 +207,7 @@ class Parser:
             self.next_token()
             return expression
 
-        raise SyntaxError(f"Bad nud token: '{token}'.")
+        raise SyntaxError(f"No value token: '{token}'.")
 
     def led(self, token: Token, left_node: Node) -> Node:
         """
@@ -243,6 +243,13 @@ class Parser:
         raise SyntaxError(f"This operation doesn' exists: '{token}'.")
 
     def parse(self) -> Node | None:
+        """
+        Parse the expression
+
+        Returns:
+            Node: First node of syntatic tree
+            None: If the expression is empty
+        """
         if not self.current_token:
             return None
 

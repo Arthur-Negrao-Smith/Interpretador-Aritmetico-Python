@@ -1,14 +1,22 @@
 from src.backend.lexer.lexer import Lexer
+from src.backend.parser.arithmetic_parser import Parser
+from src.backend.parser.nodes import Node
 from typing import Generator
 
 import logging
 import sys
 
-if "debug" in sys.argv:
+
+def active_log(level) -> None:
     log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    logging.basicConfig(
-        level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s"
-    )
+    logging.basicConfig(level=level, format=log_format)
+
+
+if "debug" in sys.argv:
+    active_log(logging.DEBUG)
+
+elif "info" in sys.argv:
+    active_log(logging.INFO)
 
 msg: str = """
 ============================
@@ -25,8 +33,14 @@ while True:
     try:
         lexer: Lexer = Lexer(text)
         tokens: Generator = lexer.generate_tokens()
-        print(list(tokens))
+        parser: Parser = Parser(list(tokens))
+        expression: Node | None = parser.parse()
+
+        if expression is None:
+            print("")
+        else:
+            print(expression)
 
     except Exception as error:
-        print(f"Syntax Erro: {error}")
+        print(f"Syntax Error: {error}")
         continue
