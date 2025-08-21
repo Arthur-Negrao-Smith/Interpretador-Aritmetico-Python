@@ -5,6 +5,7 @@ from src.backend.interpreter.interpreter import Interpreter
 
 from typing import Generator
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 import logging
@@ -43,6 +44,23 @@ else:
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
+
+
+# cors to allow access
+origins: list[str] = [
+    "http://127.0.0.1:8080",
+    "http://localhost:8080",
+    "http://127.0.0.1:3000",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # Request Model
@@ -164,4 +182,4 @@ async def get_logs() -> dict:
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
