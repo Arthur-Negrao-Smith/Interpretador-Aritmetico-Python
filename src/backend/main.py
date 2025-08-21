@@ -20,8 +20,6 @@ def active_log(level) -> None:
 if "debug" in sys.argv:
     active_log(logging.DEBUG)
 
-elif "info" in sys.argv:
-    active_log(logging.INFO)
 else:
     active_log(logging.INFO)
 
