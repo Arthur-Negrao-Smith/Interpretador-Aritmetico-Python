@@ -3,7 +3,7 @@ const inputField = document.getElementById('expression-input');
 const analyzeButton = document.getElementById('enter-btn');
 const errorArea = document.getElementById('error-area')
 
-const apiUrl = a
+const apiUrl = http://0.0.0.0:8000
 
 function addOperator(operator) {
     inputField.value += operator;
