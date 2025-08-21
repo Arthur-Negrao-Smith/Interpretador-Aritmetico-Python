@@ -3,8 +3,9 @@ from src.backend.lexer.lexer import Lexer
 from src.backend.parser.arithmetic_parser import Parser
 from src.backend.parser.nodes import Node
 from src.backend.interpreter.interpreter import Interpreter
+
 from typing import Generator
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 import logging
@@ -32,9 +33,16 @@ interpreter = Interpreter()
 app = FastAPI()
 
 
-# Modelo de request
+# Request Model
 class ExpressionRequest(BaseModel):
     expression: str
+
+
+class InterpreterResponse(BaseModel):
+    expression: str
+    result: str
+    type_error: str
+    error: str
 
 
 @app.get("/")
@@ -51,23 +59,59 @@ def calculate_expression(req: ExpressionRequest):
         expression: Node | None = parser.parse()
 
         if expression is None:
-            result = None
+            return InterpreterResponse(
+                expression=req.expression, result="", type_error="None", error="None"
+            )
+
         else:
             result = interpreter.visit(expression)
 
-        logger.info(f"Expressão: {req.expression} = {result}")
-        return {"expression": req.expression, "result": result}
+        logger.info(f"Expression: {req.expression} = {result}")
+        return InterpreterResponse(
+            expression=req.expression,
+            result=str(result),
+            type_error="None",
+            error="None",
+        )
 
     except Exception as error:
-        logger.error(f"Erro na expressão '{req.expression}': {error}")
-        return {"error": str(error)}
+        logger.error(f"Error in expression '{req.expression}': {error}")
+        return InterpreterResponse(
+            expression=req.expression,
+            result="",
+            type_error=type(error).__name__,
+            error=str(error),
+        )
 
 
 @app.get("/logs")
-def get_logs():
+def get_logs() -> dict[str, list[str]]:
     try:
         with open("app.log", "r") as f:
-            logs = f.read().splitlines()
+            logs: list[str] = f.read().splitlines()
             return {"logs": logs}
+
     except FileNotFoundError:
-        return {"logs": []}
+        raise HTTPException(
+            status_code=404,
+            detail="The log file wasn't found",
+            headers={
+                "X-Error-Type": "FileNotFound",
+                "X-File-Name": "app.log",
+                "Cache-Control": "no-cache, no-store, must-revalidate",
+                "X-Retry-After": "30",
+            },
+        )
+
+    except Exception as error:
+        print(f"Unexpected error: {error}")
+
+        raise HTTPException(
+            status_code=500,
+            detail="An unexpected error occurred while reading the log file",
+            headers={
+                "X-Error-Type": "InternalServerError",
+                "X-Error-Code": "UNEXPECTED_ERROR",
+                "Cache-Control": "no-cache, no-store, must-revalidate",
+            },
+        )
