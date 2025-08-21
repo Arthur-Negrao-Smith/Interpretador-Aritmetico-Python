@@ -3,7 +3,7 @@ const inputField = document.getElementById('expression-input');
 const analyzeButton = document.getElementById('enter-btn');
 const errorArea = document.getElementById('error-area')
 
-const apiUrl = 'http://0.0.0.0:8000'
+const apiUrl = 'http://127.0.0.1:8000'
 
 function addOperator(operator) {
     inputField.value += operator;
@@ -17,13 +17,13 @@ const sendExpression = async () => {
         return;
     }
 
-    result.textContent = '...';
+    const apiUrl_expressions = apiUrl + "/expressions" 
 
     try {
-        const response = await fetch(apiUrl, {
+        const response = await fetch(apiUrl_expressions, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ expression: expression }),
         });
@@ -41,7 +41,7 @@ const sendExpression = async () => {
     }
 };
 
-analyzeButton.addEventListener('click', sendExpression());
+analyzeButton.addEventListener('click', sendExpression);
 
 inputField.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
