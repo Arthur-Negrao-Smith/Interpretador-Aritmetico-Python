@@ -67,7 +67,7 @@ interpreter = Interpreter()
 
 
 @app.get("/")
-def root() -> HTTPResponse:
+async def root() -> HTTPResponse:
     return HTTPResponse(
         message="Bem-vindo ao Validador de Expressões Aritméticas",
         status=200,
@@ -75,7 +75,7 @@ def root() -> HTTPResponse:
 
 
 @app.post("/expressions")
-def calculate_expression(req: ExpressionRequest) -> InterpreterResponse:
+async def calculate_expression(req: ExpressionRequest) -> InterpreterResponse:
     try:
         lexer: Lexer = Lexer(req.expression)
         tokens: Generator = lexer.generate_tokens()
@@ -109,7 +109,7 @@ def calculate_expression(req: ExpressionRequest) -> InterpreterResponse:
 
 
 @app.post("/interpreter/reset")
-def reset_interpreter() -> HTTPResponse:
+async def reset_interpreter() -> HTTPResponse:
     try:
         global interpreter
         interpreter = Interpreter()
@@ -129,7 +129,7 @@ def reset_interpreter() -> HTTPResponse:
 
 
 @app.get("/logs")
-def get_logs() -> dict:
+async def get_logs() -> dict:
     try:
         with open("app.log", "r") as f:
             logs: list[str] = f.read().splitlines()
