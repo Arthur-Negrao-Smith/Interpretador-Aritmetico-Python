@@ -1,4 +1,3 @@
-from src.backend.interpreter.values import Number
 from src.backend.lexer.lexer import Lexer
 from src.backend.parser.arithmetic_parser import Parser
 from src.backend.parser.nodes import Node
@@ -28,8 +27,6 @@ else:
 
 logger = logging.getLogger(__name__)
 
-interpreter = Interpreter()
-
 app = FastAPI()
 
 
@@ -43,6 +40,15 @@ class InterpreterResponse(BaseModel):
     result: str
     type_error: str
     error: str
+
+
+class HTTPResponse(BaseModel):
+    message: str
+    status: int
+
+
+global interpreter
+interpreter = Interpreter()
 
 
 @app.get("/")
@@ -81,6 +87,26 @@ def calculate_expression(req: ExpressionRequest):
             result="",
             type_error=type(error).__name__,
             error=str(error),
+        )
+
+
+@app.post("/interpreter/reset")
+def reset_interpreter() -> HTTPResponse:
+    try:
+        global interpreter
+        interpreter = Interpreter()
+        logger.info("Interpreter was restarted.")
+        return HTTPResponse(
+            message="The interpreter was restarted",
+            status=200,
+        )
+
+    except Exception as error:
+        logger.error(f"Error to restart interpreter: {error}")
+        raise HTTPException(
+            status_code=500,
+            detail="Internal error when restarting the interpreter",
+            headers={"X-Error-Type": "ResetError"},
         )
 
 
