@@ -9,21 +9,36 @@ from pydantic import BaseModel
 
 import logging
 import sys
+import os
+
+LOG_FILENAME: str = "app.log"
 
 
-def active_log(level) -> None:
+def active_log(level, log_filename: str) -> None:
+    """
+    Will active current logs
+
+    Args:
+        level (int): Constant of logging to see logs with loglevel selected
+        log_filename (str): Name of the file to keep logs
+    """
+    try:
+        os.remove(log_filename)
+    except:
+        pass
+
     log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
     logging.basicConfig(
-        level=level, format=log_format, filename="app.log", filemode="a"
+        level=level, format=log_format, filename=log_filename, filemode="a"
     )
 
 
 if "debug" in sys.argv:
-    active_log(logging.DEBUG)
+    active_log(logging.DEBUG, LOG_FILENAME)
 
 else:
-    active_log(logging.INFO)
+    active_log(logging.INFO, LOG_FILENAME)
 
 logger = logging.getLogger(__name__)
 
@@ -114,11 +129,11 @@ def reset_interpreter() -> HTTPResponse:
 
 
 @app.get("/logs")
-def get_logs() -> dict[str, list[str]]:
+def get_logs() -> dict:
     try:
         with open("app.log", "r") as f:
             logs: list[str] = f.read().splitlines()
-            return {"logs": logs}
+            return {"logs": logs, "status": 200}
 
     except FileNotFoundError:
         raise HTTPException(
