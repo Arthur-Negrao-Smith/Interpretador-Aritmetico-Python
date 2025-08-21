@@ -52,12 +52,15 @@ interpreter = Interpreter()
 
 
 @app.get("/")
-def root():
-    return {"message": "Bem-vindo ao Validador de Expressões Aritméticas"}
+def root() -> HTTPResponse:
+    return HTTPResponse(
+        message="Bem-vindo ao Validador de Expressões Aritméticas",
+        status=200,
+    )
 
 
 @app.post("/expressions")
-def calculate_expression(req: ExpressionRequest):
+def calculate_expression(req: ExpressionRequest) -> InterpreterResponse:
     try:
         lexer: Lexer = Lexer(req.expression)
         tokens: Generator = lexer.generate_tokens()
@@ -130,7 +133,7 @@ def get_logs() -> dict[str, list[str]]:
         )
 
     except Exception as error:
-        print(f"Unexpected error: {error}")
+        logger.error(f"Unexpected error: {error}")
 
         raise HTTPException(
             status_code=500,
