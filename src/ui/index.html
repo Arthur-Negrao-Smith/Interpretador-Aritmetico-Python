@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <script src="./script.js" defer></script>
+        <title>Validador de Expressões</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="calculator">
+                <section class="calc-buttons"> 
+                    <div class="calc-button-row">
+                        <button class="calc-button double" onclick="addOperator('+')">
+                            &plus;
+                        </button>
+                        <button class="calc-button double" onclick="addOperator('-')">
+                            &minus;
+                        </button>
+                        <button class="calc-button double" onclick="addOperator('*')">
+                            &times;
+                        </button>
+                        <button class="calc-button double" onclick="addOperator('/')">
+                            &divide;
+                        </button>
+                    </div>
+                    <div class="calc-button-row">
+                        <button class="calc-button double" onclick="addOperator('exp()')">
+                            exp<sup>&#9633;</sup>
+                        </button>
+                        <button class="calc-button double" onclick="addOperator('log()')">
+                            log<sub>2</sub>
+                        </button>
+                        <button class="calc-button double" onclick="addOperator('sen()')">
+                            sen
+                        </button>
+                        <button class="calc-button double" onclick="addOperator('cos()')">
+                            cos
+                        </button>
+                    </div>
+
+                    <div class="calc-button-row">
+                        <button class="calc-button" onclick="addOperator('^')">
+                            x<sup>&#9633;</sup>
+                        </button>
+                        <button class="calc-button" onclick="addOperator('sqrt()')">
+                            &radic;
+                        </button>
+                        <button class="calc-button" onclick="addOperator('(')">
+                            &#40;
+                        </button>
+                        <button class="calc-button" onclick="addOperator(')')">
+                            &#41;
+                        </button>
+                        <button class="calc-button triple" onclick="addOperator('=')">
+                            &equals;
+                        </button>
+                    </div>
+                </section>
+
+                <section class="expression-area">
+                    <input type="text" class="expression-input" id="expression-input" placeholder="Digite uma expressão">
+                    <button class="enter-btn" id="enter-btn">
+                        &rarr;
+                    </button>
+                </section>
+
+                <div class="result-area">
+                    <button class="reset-button" type="reset" id="reset-button">
+                        Reset
+                    </button>
+                    <p id="result"></p>
+                </div>
+                <div class="error-area" id="error-area"></div>
+            </div>
+        </div>
+    </body>
+</html>
