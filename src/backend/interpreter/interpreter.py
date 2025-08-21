@@ -13,7 +13,7 @@ class Interpreter:
     def __init__(self):
         self.variables: dict[str, Number] = {}
 
-    def visit(self, node) -> Number:
+    def visit(self, node: Node) -> Number:
         method_name: str = f"visit_{type(node).__name__}"
         method: Callable = getattr(self, method_name)
         return method(node)
