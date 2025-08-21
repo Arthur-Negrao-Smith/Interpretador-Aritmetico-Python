@@ -85,7 +85,7 @@ body{
     padding: 15px;
 }
 ::-webkit-input-placeholder{
-    color: #232323;
+    color: #ffffff;
     font-size: 12px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
@@ -110,10 +110,38 @@ body{
     color: #232323;
     text-align: right;
     font-size: 1.9em;
-    padding-top: 5px;
+    padding: auto;
     word-wrap: break-word;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    margin: 5% 0;
+}
+.reset-button{
+    backdrop-filter: blur(5.5px);
+    -webkit-backdrop-filter: blur(5.5px);
+    background: rgba(255, 67, 67, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.01);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(35, 35, 35, 0.1);
+    color: #ffffff;
+    flex-basis: 15%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    height: 40px;
+}
+.reset-button:hover{
+    background-color:#fcaf98;
+    color:#232323
+}
+.reset-button:active{
+    background-color:#ff8c83;
+}
+.error-area{
+    font-size: 12px;
+    padding: 8px;
 }
 .double{
     flex-basis: 22%;
