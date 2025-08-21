@@ -1,3 +1,4 @@
+from src.backend.interpreter.values import Number
 from src.backend.lexer.lexer import Lexer
 from src.backend.parser.arithmetic_parser import Parser
 from src.backend.parser.nodes import Node
@@ -7,7 +8,7 @@ from typing import Generator
 import logging
 import sys
 
-interpreter = Interpreter()
+
 def active_log(level) -> None:
     log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     logging.basicConfig(level=level, format=log_format)
@@ -19,11 +20,14 @@ if "debug" in sys.argv:
 elif "info" in sys.argv:
     active_log(logging.INFO)
 
+
 msg: str = """
 ============================
         Calculator
 ============================
 """
+
+interpreter = Interpreter()
 
 print(msg)
 while True:
@@ -40,9 +44,9 @@ while True:
         if expression is None:
             print("")
         else:
-            result = interpreter.visit(expression)
+            result: Number = interpreter.visit(expression)
             print(result)
 
     except Exception as error:
-        print(f"Syntax Error: {error}")
+        print(f"{type(error).__name__}: {error}")
         continue
