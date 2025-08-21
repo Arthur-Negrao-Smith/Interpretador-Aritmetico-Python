@@ -1,0 +1,33 @@
+name: Interpreter-App
+
+services:
+  backend:
+    build:
+      context: src/backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/app/src
+    working_dir: /app
+    environment:
+      - PYTHONPATH=/app/src
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: src/frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src/frontend/:/app
+    working_dir: /app
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
