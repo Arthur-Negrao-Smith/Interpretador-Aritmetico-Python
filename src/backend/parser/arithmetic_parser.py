@@ -139,6 +139,22 @@ class Parser:
             self.next_token()
             left_node = self.led(token, left_node)
 
+        # if the current token is a Ned Node again
+        if self.current_token and self.current_token.type in (
+            TokenType.LEFT_PARENTHESES,
+            TokenType.COS,
+            TokenType.SIN,
+            TokenType.SQRT,
+            TokenType.LOG,
+            TokenType.EXP,
+            TokenType.EQUAL,
+            TokenType.NUMBER,
+            TokenType.VARIABLE,
+        ):
+            raise SyntaxError(
+                f"Unexpected Token after expression '{left_node}': '{self.current_token}'."
+            )
+
         return left_node
 
     def nud(self, token: Token) -> Node:
@@ -198,7 +214,7 @@ class Parser:
 
             # consume the parenthesis ")"
             self.next_token()
-            log.info(f"Function Node created: '{function_name}'")
+            log.info(f"Function Node created: '{function_name}'.")
             return FunctionNode(function_name, expression)
 
         elif token.type == TokenType.LEFT_PARENTHESES:
@@ -208,7 +224,7 @@ class Parser:
                 or self.current_token.type != TokenType.RIGHT_PARENTHESES
             ):
                 raise SyntaxError(
-                    f"Expect a right parenthesis. passed token: {self.current_token}"
+                    f"Expect a right parenthesis. passed token: '{self.current_token}'."
                 )
             self.next_token()
             return expression
@@ -223,6 +239,13 @@ class Parser:
             token (Token): Token to parse and create Node
             left_node (Node): Left node in syntax tree
         """
+
+        # if don't have any literal value to use operations
+        if self.current_token is None:
+            raise SyntaxError(
+                f"Binary operator '{self.convert_operation_to_string(token)}' requires a right-hand side expression."
+            )
+
         if token.type in (
             TokenType.PLUS,
             TokenType.MINUS,
