@@ -20,12 +20,6 @@ body{
     justify-content: center;
     margin: 0;
 }
-.title{
-    font-size: 18px;
-    margin-bottom: 30px;
-    color: #ffffff;
-    height: 45px;
-}
 .calculator{
     backdrop-filter: blur(5.5px);
     -webkit-backdrop-filter: blur(5.5px);
