@@ -14,7 +14,9 @@ import sys
 def active_log(level) -> None:
     log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
-    logging.basicConfig(level=level, format=log_format, filename="app.log", filemode="a")
+    logging.basicConfig(
+        level=level, format=log_format, filename="app.log", filemode="a"
+    )
 
 
 if "debug" in sys.argv:
@@ -29,13 +31,16 @@ interpreter = Interpreter()
 
 app = FastAPI()
 
+
 # Modelo de request
 class ExpressionRequest(BaseModel):
     expression: str
 
+
 @app.get("/")
 def root():
-    return{"message": "Bem-vindo ao Validador de Expressões Aritméticas"}
+    return {"message": "Bem-vindo ao Validador de Expressões Aritméticas"}
+
 
 @app.post("/expressions")
 def calculate_expression(req: ExpressionRequest):
@@ -49,13 +54,14 @@ def calculate_expression(req: ExpressionRequest):
             result = None
         else:
             result = interpreter.visit(expression)
-        
+
         logger.info(f"Expressão: {req.expression} = {result}")
         return {"expression": req.expression, "result": result}
-    
+
     except Exception as error:
         logger.error(f"Erro na expressão '{req.expression}': {error}")
         return {"error": str(error)}
+
 
 @app.get("/logs")
 def get_logs():
