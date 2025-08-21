@@ -25,7 +25,7 @@ elif "info" in sys.argv:
 else:
     active_log(logging.INFO)
 
-logger = logging.getLogger(_name_)
+logger = logging.getLogger(__name__)
 
 interpreter = Interpreter()
 
