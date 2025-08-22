@@ -61,10 +61,25 @@ app.add_middleware(
 
 # Request Model
 class ExpressionRequest(BaseModel):
+    """
+    Request model to receive an arithmetic expression string.
+
+    Attributes:
+        expression (str): The arithmetic expression to be evaluated.
+    """
     expression: str
 
 
 class InterpreterResponse(BaseModel):
+    """
+    Response model for evaluated expressions.
+
+    Attributes:
+        expression (str): The original expression sent by the user.
+        result (str): The evaluated result of the expression.
+        type_error (str): Type of error if one occurred, otherwise "None".
+        error (str): Error message if one occurred, otherwise "None".
+    """
     expression: str
     result: str
     type_error: str
@@ -72,6 +87,13 @@ class InterpreterResponse(BaseModel):
 
 
 class HTTPResponse(BaseModel):
+    """
+    HTTP response model for status messages.
+
+    Attributes:
+        message (str): readable message.
+        status (int): HTTP status code.
+    """
     message: str
     status: int
 
@@ -82,6 +104,12 @@ interpreter = Interpreter()
 
 @app.get("/")
 async def root() -> HTTPResponse:
+    """
+    Root endpoint of the API.
+
+    Returns:
+        HTTPResponse: Welcome message and status code.
+    """
     return HTTPResponse(
         message="Bem-vindo ao Validador de Expressões Aritméticas",
         status=200,
@@ -90,6 +118,14 @@ async def root() -> HTTPResponse:
 
 @app.post("/expressions")
 async def calculate_expression(req: ExpressionRequest) -> InterpreterResponse:
+    """
+    Parse, evaluate, and interpret an arithmetic expression.
+
+    Args:
+        req (ExpressionRequest): The request body containing the expression.
+    Returns:
+        InterpreterResponse: Result of the evaluated expression, or error details.
+    """
     try:
         lexer: Lexer = Lexer(req.expression)
         tokens: Generator = lexer.generate_tokens()
@@ -124,6 +160,15 @@ async def calculate_expression(req: ExpressionRequest) -> InterpreterResponse:
 
 @app.post("/interpreter/reset")
 async def reset_interpreter() -> HTTPResponse:
+    """
+    Reset the interpreter instance and clear stored variables.
+
+    Returns:
+        HTTPresponse: confirmation message and status code.
+    
+    Raises:
+        HTTPException: If the interpreter cannot be restarted.
+    """
     try:
         global interpreter
         interpreter = Interpreter()
@@ -144,6 +189,15 @@ async def reset_interpreter() -> HTTPResponse:
 
 @app.get("/logs")
 async def get_logs() -> dict:
+    """
+    Get the contents of the log file.
+
+    Returns:
+        dict: Log lines and status code.
+    
+    Raises:
+        HTTPException: If the log file is not found or an unexpected error occurs.
+    """
     try:
         with open("app.log", "r") as f:
             logs: list[str] = f.read().splitlines()
