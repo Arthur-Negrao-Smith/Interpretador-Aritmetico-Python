@@ -91,7 +91,7 @@ class HTTPResponse(BaseModel):
     HTTP response model for status messages.
 
     Attributes:
-        message (str): readable message.
+        message (str): Readable message.
         status (int): HTTP status code.
     """
     message: str
@@ -164,7 +164,7 @@ async def reset_interpreter() -> HTTPResponse:
     Reset the interpreter instance and clear stored variables.
 
     Returns:
-        HTTPresponse: confirmation message and status code.
+        HTTPResponse: confirmation message and status code.
     
     Raises:
         HTTPException: If the interpreter cannot be restarted.
