@@ -177,7 +177,7 @@ class Interpreter:
         Args:
             node (VariableNode): The variable node containing the variable name.
         
-            Returns:
+        Returns:
                 Number: The value assigned to the variable.
         
         Raises:
