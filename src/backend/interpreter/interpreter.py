@@ -17,9 +17,9 @@ class Interpreter:
         """
         Constructor for Interpreter.
 
-        Iniatilizes an empty dictionary to store variables.
+        Initializes an empty dictionary to store variables.
 
-        Attribues:
+        Attributes:
             variables (dict[str, Number]): Dictionary to store variable names and their values.
         """
         self.variables: dict[str, Number] = {}
@@ -45,14 +45,14 @@ class Interpreter:
         Args:
             node (NumberNode): The NumberNode containing the numeric value.
         
-        returns:
+        Returns:
             Number: The Number object representing the node's value.
         """
         return Number(node.value)
 
     def visit_BinOperationNode(self, node: BinOperationNode) -> Number:
         """
-        Process a BinOperationNode by evaluating the left and right nodes and applying the binary operation
+        Process a BinOperationNode by evaluating the left and right nodes and applying the binary operation.
 
         Supported operations:
             + : Addition
@@ -68,7 +68,7 @@ class Interpreter:
             Number: The result of the binary operation.
         
         Raises:
-            ZeroDivisionError: If the operation is division and the rigth node is zero.
+            ZeroDivisionError: If the operation is division and the right node is zero.
             RuntimeError: If the operation is not supported.
         """
         left: Number = self.visit(node.left_node)
@@ -104,7 +104,7 @@ class Interpreter:
             - : Unary minus (negates the operand)
         
         Args: 
-            node (UnaryOperationNode): The unary operation node tho evaluate.
+            node (UnaryOperationNode): The unary operation node to evaluate.
         
         Returns:
             Number: The result of the unary operation.
@@ -122,7 +122,7 @@ class Interpreter:
 
     def visit_FunctionNode(self, node: FunctionNode) -> Number:
         """
-        Process a FunctionNode by evaluating its expression and applying the corresponding mathemetical function.
+        Process a FunctionNode by evaluating its expression and applying the corresponding mathematical function.
 
         Supported functions:
             sqrt : Square root
@@ -135,7 +135,7 @@ class Interpreter:
             node (FunctionNode): The function node to evaluate.
 
         Returns:
-            Number: The result of the function applied to the evaluate expression.
+            Number: The result of the function applied to the evaluated expression.
 
         Raises:
             RuntimeError: If the function is not supported.    
@@ -158,13 +158,13 @@ class Interpreter:
 
     def visit_AssignmentNode(self, node: AssignmentNode) -> Number:
         """
-        Process an AssignmentNode By evaluating the value and storing it in the variable dictionary.
+        Process an AssignmentNode by evaluating the value and storing it in the variable dictionary.
 
         Args:
             node (AssignmentNode): The assignment node containing the variable name and value.
         
-        returns:
-            Number: The evaluated assigned to the variable.
+        Returns:
+            Number: The evaluated value assigned to the variable.
         """
         value: Number = self.visit(node.value)
         self.variables[node.variable_name] = value
@@ -172,10 +172,13 @@ class Interpreter:
 
     def visit_VariableNode(self, node):
         """
-        Procces a VariableNode by looking up its value in the variable dictionary.
+        Process a VariableNode by looking up its value in the variable dictionary.
 
         Args:
             node (VariableNode): The variable node containing the variable name.
+        
+            Returns:
+                Number: The value assigned to the variable.
         
         Raises:
             ValueError: If the variable has not been assigned a value.
