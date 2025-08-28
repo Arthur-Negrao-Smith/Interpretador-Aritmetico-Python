@@ -35,11 +35,7 @@ def active_log(level, log_filename: str) -> None:
     )
 
 
-if "debug" in sys.argv:
-    active_log(logging.DEBUG, LOG_FILENAME)
-
-else:
-    active_log(logging.INFO, LOG_FILENAME)
+active_log(logging.INFO, LOG_FILENAME)
 
 logger = logging.getLogger(__name__)
 
@@ -177,9 +173,3 @@ async def get_logs() -> dict:
                 "Cache-Control": "no-cache, no-store, must-revalidate",
             },
         )
-
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, host="127.0.0.1", port=8000)
