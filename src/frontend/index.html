@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+    <!--Header padrão-->
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +9,16 @@
         <title>Validador de Expressões</title>
     </head>
     <body>
+        <!--Div que contém o conteúdo principal do projeto-->
         <div class="container">
             <div class="calculator">
+                <!--A "calculadora" foi dividida em duas seções:
+                - Área de botões com as expressões disponíveis no interpretador;
+                - Área para retornar os enviar expressões para o interpretador-->
                 <section class="calc-buttons"> 
+                    <!--Há botões que terminam com"double" e outros com "triple"
+                    É utilizado para ajustar seus tamanhos no CSS-->
+                    <!--A função onclick="addOperator" retorna alguma expressão no input ao clicar nele-->
                     <div class="calc-button-row">
                         <button class="calc-button double" onclick="addOperator('+')">
                             &plus;
@@ -58,20 +66,24 @@
                         </button>
                     </div>
                 </section>
-
+                <!--Área para enviar uma expressão qualquer, ex: "10 + 5 = 2x"-->
                 <section class="expression-area">
                     <input type="text" class="expression-input" id="expression-input" placeholder="Digite uma expressão">
                     <button class="enter-btn" id="enter-btn">
                         &rarr;
                     </button>
                 </section>
-
+                <!--Retorna o resultado do nosso interpretador-->
                 <div class="result-area">
+                    <!--O Reset serve para apagar valores armazenados
+                    em alguma variável que foi definida pelo usuário-->
                     <button class="reset-button" type="reset" id="reset-button">
                         Reset
                     </button>
-                    <p id="result"></p>
+                    <p id="result">0</p>
                 </div>
+                <!--Retorna algum possível erro que o usuário
+                tenha cometido ao usar o interpretador-->
                 <div class="error-area" id="error-area"></div>
             </div>
         </div>
