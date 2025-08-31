@@ -41,7 +41,7 @@ const sendExpression = async () => {
         return;
     }
 
-    const apiUrl_expressions = apiUrl + "/expressions" 
+    const apiUrl_expressions = apiUrl + "/expressions"
 
     try {
         const response = await fetch(apiUrl_expressions, {
@@ -55,18 +55,25 @@ const sendExpression = async () => {
         const data = await response.json();
 
         if (response.ok) {
-            // Em caso de sucesso, mostra o resultado da API
-            result.textContent = `${data.result}`;
-            errorArea.textContent = ''; // Apaga os possíveis erros anteriores
+            // if error is null
+            if (!data.error) {
+                // If it is a success, show the API result
+                result.textContent = `${data.result}`;
+                errorArea.textContent = ''; // cleanup previous errors
+            } else {
+                // If it has a error, show error type and API message.
+                result.textContent = '';
+                errorArea.textContent = `${data.type_error}:` + `\n${data.error}`;
+            }
         } else {
-            // Se houver algum erro, mostra o tipo de erro e a mensagem API.
-            errorArea.textContent = `${data.type_error}` + `\n${data.error}`;
+            console.error('Erro com a resposta da requisição HTTP.');
         }
     } catch (error) {
         console.error('Erro ao conectar com a API:', error);
         errorArea.textContent = 'Não foi possível conectar ao servidor.';
     }
 };
+
 /**
  * Envia de maneira assíncrona uma requisição para a API do backend para resetar o estado do interpretador.
  * Se for reset for um sucesso, também limpa todos os campos do frontend (input, result, error) e notifica o usuário com um alerta.
@@ -74,7 +81,7 @@ const sendExpression = async () => {
  * @returns {Promise<void>} Uma promessa que é cumprida quando a operação de busca e a atualização do frontend foram completadas
  */
 const resetData = async () => {
-    const resetUrl = apiUrl + "/interpreter/reset"; 
+    const resetUrl = apiUrl + "/interpreter/reset";
 
     try {
         const response = await fetch(resetUrl, {
@@ -87,10 +94,10 @@ const resetData = async () => {
         const data = await response.json();
 
         if (response.ok) {
-            // Limpa todos os campos e notifica o sucesso. 
-            inputField.value = '';   
-            result.textContent = '0';   
-            errorArea.textContent = '';   
+            // Cleanup all fields and notify a success.
+            inputField.value = '';
+            result.textContent = '0';
+            errorArea.textContent = '';
             alert("Os dados foram resetados com sucesso!");
         } else {
             console.error('Erro do servidor:', data);
