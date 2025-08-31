@@ -9,7 +9,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 import logging
-import sys
 import os
 
 LOG_FILENAME: str = "app.log"
@@ -67,6 +66,7 @@ class ExpressionRequest(BaseModel):
     Attributes:
         expression (str): The arithmetic expression to be evaluated.
     """
+
     expression: str
 
 
@@ -76,14 +76,15 @@ class InterpreterResponse(BaseModel):
 
     Attributes:
         expression (str): The original expression sent by the user.
-        result (str): The evaluated result of the expression.
-        type_error (str): Type of error if one occurred, otherwise "None".
-        error (str): Error message if one occurred, otherwise "None".
+        result (str | None): The evaluated result of the expression if don't have a error, otherwise "None".
+        type_error (str | None): Type of error if one occurred, otherwise "None".
+        error (str | None): Error message if one occurred, otherwise "None".
     """
+
     expression: str
-    result: str
-    type_error: str
-    error: str
+    result: str | None = None
+    type_error: str | None = None
+    error: str | None = None
 
 
 class HTTPResponse(BaseModel):
@@ -94,6 +95,7 @@ class HTTPResponse(BaseModel):
         message (str): Readable message.
         status (int): HTTP status code.
     """
+
     message: str
     status: int
 
@@ -144,15 +146,12 @@ async def calculate_expression(req: ExpressionRequest) -> InterpreterResponse:
         return InterpreterResponse(
             expression=req.expression,
             result=str(result),
-            type_error="None",
-            error="None",
         )
 
     except Exception as error:
         logger.error(f"Error in expression '{req.expression}': {error}")
         return InterpreterResponse(
             expression=req.expression,
-            result="",
             type_error=type(error).__name__,
             error=str(error),
         )
@@ -165,7 +164,7 @@ async def reset_interpreter() -> HTTPResponse:
 
     Returns:
         HTTPResponse: confirmation message and status code.
-    
+
     Raises:
         HTTPException: If the interpreter cannot be restarted.
     """
@@ -194,7 +193,7 @@ async def get_logs() -> dict:
 
     Returns:
         dict: Log lines and status code.
-    
+
     Raises:
         HTTPException: If the log file is not found or an unexpected error occurs.
     """
