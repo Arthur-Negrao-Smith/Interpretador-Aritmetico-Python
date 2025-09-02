@@ -13,6 +13,7 @@ class Interpreter:
     """
     Interpreter to evaluate syntax trees and manage variable storage.
     """
+
     def __init__(self):
         """
         Constructor for Interpreter.
@@ -30,7 +31,7 @@ class Interpreter:
 
         Args:
             node (Node): The syntax tree node to visit.
-        
+
         Returns:
             Number: The result of evaluating the node.
         """
@@ -44,7 +45,7 @@ class Interpreter:
 
         Args:
             node (NumberNode): The NumberNode containing the numeric value.
-        
+
         Returns:
             Number: The Number object representing the node's value.
         """
@@ -60,13 +61,13 @@ class Interpreter:
             * : Multiplication
             / : Division (raises ZeroDivisionError if divisor is zero)
             ^ : Exponentiation
-        
+
         Args:
             node (BinOperationNode): The binary operation node to evaluate.
-        
+
         Returns:
             Number: The result of the binary operation.
-        
+
         Raises:
             ZeroDivisionError: If the operation is division and the right node is zero.
             RuntimeError: If the operation is not supported.
@@ -102,13 +103,13 @@ class Interpreter:
         Supported operations:
             + : Unary plus (returns the operand)
             - : Unary minus (negates the operand)
-        
-        Args: 
+
+        Args:
             node (UnaryOperationNode): The unary operation node to evaluate.
-        
+
         Returns:
             Number: The result of the unary operation.
-        
+
         Raises:
             RuntimeError: If the operation is not recognized.
         """
@@ -126,7 +127,7 @@ class Interpreter:
 
         Supported functions:
             sqrt : Square root
-            log  : Natural logarithm
+            log  : Logarithm (base 2)
             sin  : Sine (radians)
             cos  : Cosine (radians)
             exp  : Exponential function (e^x)
@@ -138,7 +139,7 @@ class Interpreter:
             Number: The result of the function applied to the evaluated expression.
 
         Raises:
-            RuntimeError: If the function is not supported.    
+            RuntimeError: If the function is not supported.
         """
         arg: Number = self.visit(node.expression)
         funct_name: str = node.function_name.lower()
@@ -146,7 +147,7 @@ class Interpreter:
         if funct_name == "sqrt":
             return Number(math.sqrt(arg.Value))
         elif funct_name == "log":
-            return Number(math.log(arg.Value))
+            return Number(math.log(arg.Value, 2))
         elif funct_name == "sin":
             return Number(math.sin(arg.Value))
         elif funct_name == "cos":
@@ -162,7 +163,7 @@ class Interpreter:
 
         Args:
             node (AssignmentNode): The assignment node containing the variable name and value.
-        
+
         Returns:
             Number: The evaluated value assigned to the variable.
         """
@@ -176,10 +177,10 @@ class Interpreter:
 
         Args:
             node (VariableNode): The variable node containing the variable name.
-        
+
         Returns:
                 Number: The value assigned to the variable.
-        
+
         Raises:
             ValueError: If the variable has not been assigned a value.
         """
